@@ -1,0 +1,68 @@
+#***************************************************************************
+#*                                                                         *
+#*   Copyright (c) 2015 - Victor Titov (DeepSOIC)                          *
+#*                                               <vv.titov@gmail.com>      *  
+#*                                                                         *
+#*   This program is free software; you can redistribute it and/or modify  *
+#*   it under the terms of the GNU Lesser General Public License (LGPL)    *
+#*   as published by the Free Software Foundation; either version 2 of     *
+#*   the License, or (at your option) any later version.                   *
+#*   for detail see the LICENCE text file.                                 *
+#*                                                                         *
+#*   This program is distributed in the hope that it will be useful,       *
+#*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+#*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+#*   GNU Library General Public License for more details.                  *
+#*                                                                         *
+#*   You should have received a copy of the GNU Library General Public     *
+#*   License along with this program; if not, write to the Free Software   *
+#*   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
+#*   USA                                                                   *
+#*                                                                         *
+#***************************************************************************
+
+__title__="Macro MatrixTransform"
+__author__ = "DeepSOIC"
+__doc__ = '''
+Macro MatrixTransform.
+Distorts geometry according to vector transformation defined by the matrix.
+
+Matrix is defined by three vectors:
+       v1x   v2x   v3x                  
+M = (  v1y   v2y   v3y )                  
+       v1z   v2z   v3z                  
+Here, v1,v2,v3 are vectors that can be defined in properties. They correspond
+to new directions of what was originally X,Y,Z axes.
+
+exmaple matrices:
+
+No transformation:
+1  0  0
+0  1  0
+0  0  1
+
+non-uniform scaling:
+scaleX    0      0
+   0   scaleY    0
+   0      0   scaleZ
+
+shearing (operation that makes regular text into italic; assuming text is in XY
+plane):
+1  shear  0
+0    1    0
+0    0    1
+('shear' coefficient defines the amount of shearing. 0 is no shearing. 1 makes
+the text italic by 45 degrees. -1 shears in backslash-like fashion.)
+
+
+Instruciotns:
+Select the object to be sheared, then run the macro. A new object will be
+created, with shear matrix filled in by default. Edit values of v1, v2, v3 to
+change the behavior.
+
+Warning. All geometry is converted to B-splines, even if it doesn't have to.
+This can cause all sorts of trouble. Use only if absolutely necessary.
+'''
+
+import MatrixTransform
+MatrixTransform.run()
