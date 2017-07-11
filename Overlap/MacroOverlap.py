@@ -67,6 +67,7 @@ class Overlap:
         selfobj.Proxy = self
 
     def execute(self,selfobj):
+        import BOPTools
         import BOPTools.Utils as Utils
         from BOPTools.GeneralFuseResult import GeneralFuseResult
         
@@ -83,7 +84,7 @@ class Overlap:
         for piece in gr.pieces:
             if len(gr.sourcesOfPiece(piece)) >= selfobj.OverlapIndex:
                 pieces_to_keep.append(piece)
-        selfobj.Shape = Part.BOPTools.ShapeMerge.mergeShapes(pieces_to_keep)
+        selfobj.Shape = BOPTools.ShapeMerge.mergeShapes(pieces_to_keep)
 
 class ViewProviderOverlap:
     def __init__(self,vobj):
