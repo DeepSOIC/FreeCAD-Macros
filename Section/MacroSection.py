@@ -29,14 +29,23 @@ Alternative implementation of Part Section tool.
 Requires FreeCAD v0.17+ and OCC 6.9.0+
 
 Instructions:
+First of all, save this macro as MacroSection.py, into a location from where it can be imported. FC's standard macro location is the best place to do that.
+
 Select two shapes to compute section between.
 Then, in Py console:
 
 import MacroSection
 MacroSection.run()
 
+OR
+
+just run this file as a macro.
+
 Parametric Section object is created.
 '''
+if __name__ == "__main__": #being run as a macro
+    import MacroSection
+    MacroSection.run()
 
 import FreeCAD as App
 if App.GuiUp:
@@ -58,6 +67,8 @@ class Section:
         selfobj.Proxy = self
 
     def execute(self,selfobj):
+        import BOPTools
+        import BOPTools.ShapeMerge
         from BOPTools.Utils import HashableShape
         
         if len(selfobj.Base.Shape.Faces) == 0 or len(selfobj.Tool.Shape.Faces) == 0:
@@ -74,7 +85,7 @@ class Section:
         edges_to_return = [edge.Shape for edge in edges_to_return] #convert hashable shapes back to plain shapes
         print("returning {num} edges of total {tot}".format(num= len(edges_to_return), tot= len(edges1)+len(edges2)))
         
-        selfobj.Shape = Part.BOPTools.ShapeMerge.mergeWires(edges_to_return)
+        selfobj.Shape = BOPTools.ShapeMerge.mergeWires(edges_to_return)
 
 class ViewProviderSection:
     def __init__(self,vobj):
@@ -87,12 +98,6 @@ class ViewProviderSection:
         self.ViewObject = vobj
         self.Object = vobj.Object
   
-    def setEdit(self,vobj,mode):
-        return False
-    
-    def unsetEdit(self,vobj,mode):
-        return
-
     def __getstate__(self):
         return None
 
@@ -152,3 +157,4 @@ def run():
         mb.setText(err.message)
         mb.setWindowTitle("Macro Section")
         mb.exec_()
+
