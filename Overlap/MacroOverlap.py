@@ -23,8 +23,8 @@
 
 __Title__ = "Macro Overlap"
 __Author__ = "DeepSOIC"
-__Version__ = "0.1"
-__Date__    = "12/10/2016"
+__Version__ = "0.2"
+__Date__    = "31/08/2018"
 
 __Comment__ = "Extension of Part Common boolean operation"
 __Web__ = "http://forum.freecadweb.org/viewtopic.php?f=8&t=17755"
@@ -38,13 +38,12 @@ Requires FreeCAD v0.17.8053+ and OCC 6.9.0+
 
 Instructions:
 Select three or more shapes to compute Overlap between. A single compound will do, too.
-Then, in Py console:
-
-import MacroOverlap
-MacroOverlap.run()
-
-Parametric Overlap object is created.
+Then, run this macro. Parametric Overlap object is created.
 '''
+
+if __name__ == "__main__": #being run as a macro
+    import MacroOverlap
+    MacroOverlap.run()
 
 import FreeCAD as App
 if App.GuiUp:
@@ -126,7 +125,7 @@ class CommandMacroOverlap:
         return {'Pixmap'  : ":/icons/Part_Overlap.svg",
                 'MenuText': "Overlap",
                 'Accel': "",
-                'ToolTip': "Macro_Overlap: alternative implementation of Part Overlap tool"}
+                'ToolTip': "Macro_Overlap: boolean overlap. Collects space filled by at least 2 shapes."}
 
     def Activated(self):
         run()
@@ -136,7 +135,7 @@ class CommandMacroOverlap:
         else:
             return False
 
-if App.GuiUp:
+if App.GuiUp and __name__ != "__main__":
     Gui.addCommand("Macro_Overlap", CommandMacroOverlap())
 
 def run():
